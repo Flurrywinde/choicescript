@@ -1,3 +1,15 @@
+<?php
+require_once('/home/herbal7/public_html/openwebanalytics/owa_php.php');
+		
+$owa = new owa_php();
+// Set the site id you want to track
+$owa->setSiteId('c2b67c729c25671585ff36c7b890b62a');
+// Uncomment the next line to set your page title
+//$owa->setPageTitle('somepagetitle');
+// Set other page properties
+//$owa->setProperty('foo', 'bar');
+$owa->trackPageView();
+?>
 <!DOCTYPE html>
 <html>
 <!--
@@ -78,5 +90,23 @@ startLoading();
 <p>This game requires JavaScript; please enable JavaScript and refresh this page.</p>
 </noscript>
 <a id="makeyourowngames" href="https://www.choiceofgames.com/make-your-own-games/choicescript-intro/">Make your own games with ChoiceScript</a>
+<!-- Start Open Web Analytics Tracker -->
+<script type="text/javascript">
+//<![CDATA[
+var owa_baseUrl = 'https://herbaloutfitters.com/openwebanalytics/';
+var owa_cmds = owa_cmds || [];
+owa_cmds.push(['setSiteId', 'c2b67c729c25671585ff36c7b890b62a']);
+owa_cmds.push(['trackPageView']);
+owa_cmds.push(['trackClicks']);
+
+(function() {
+	var _owa = document.createElement('script'); _owa.type = 'text/javascript'; _owa.async = true;
+	owa_baseUrl = ('https:' == document.location.protocol ? window.owa_baseSecUrl || owa_baseUrl.replace(/http:/, 'https:') : owa_baseUrl );
+	_owa.src = owa_baseUrl + 'modules/base/js/owa.tracker-combined-min.js';
+	var _owa_s = document.getElementsByTagName('script')[0]; _owa_s.parentNode.insertBefore(_owa, _owa_s);
+}());
+//]]>
+</script>
+<!-- End Open Web Analytics Code -->
 </body>
 </html>
