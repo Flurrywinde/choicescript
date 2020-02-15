@@ -1265,10 +1265,10 @@ function subscribe(target, options, callback) {
     return;
   }
   var mailToSupported = isMobile && !window.isMacApp;
-  if (window.isAndroidApp) mailToSupported = urlSupport.isSupported("mailto:support@choiceofgames.com");
+  if (window.isAndroidApp) mailToSupported = urlSupport.isSupported("mailto:support@herbaloutfitters.com");
   if (mailToSupported) {
     subscribeByMail(target, options, callback, function() {
-      window.location.href = "mailto:subscribe-"+window.storeName+"-"+platformCode() + "@choiceofgames.com?subject=Sign me up&body=Please notify me when the next game is ready.";
+      window.location.href = "mailto:subscribe-"+window.storeName+"-"+platformCode() + "@herbaloutfitters.com?subject=Sign me up&body=Please notify me when the next game is ready.";
     });
     return;
   }
@@ -2920,12 +2920,12 @@ window.registered = false;
 
 function getSupportEmail() {
   if (window.storeName) {
-    return "support-" + storeName + "-" + platformCode() + "@choiceofgames.com";
+    return "support-" + storeName + "-" + platformCode() + "@herbaloutfitters.com";
   }
   try {
     return document.getElementById("supportEmail").getAttribute("href").substring(7);
   } catch (e) {
-    return "support-external@choiceofgames.com";
+    return "choicescript-support-external@herbaloutfitters.com";
   }
 }
 
