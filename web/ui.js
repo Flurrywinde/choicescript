@@ -2920,12 +2920,12 @@ window.registered = false;
 
 function getSupportEmail() {
   if (window.storeName) {
-    return "support-" + storeName + "-" + platformCode() + "@choiceofgames.com";
+    return "support-" + storeName + "-" + platformCode() + "@herbaloutfitters.com";
   }
   try {
     return document.getElementById("supportEmail").getAttribute("href").substring(7);
   } catch (e) {
-    return "support-external@choiceofgames.com";
+    return "choicescript-support@herbaloutfitters.com";
   }
 }
 
