@@ -13,7 +13,7 @@ This is my fork of dfabulich's ChoiceScript project (https://github.com/dfabulic
 
 * **Annotation:** Good for works-in-progress. Your readers can report typos, make suggestions, etc. right from inside the game.
 
-* Video: Add video to your games, not just images.
+* **Video:** Add video to your games, not just images.
 
 * **Back-curl:** After viewing the stat or achievement screen, the main game text comes back from the left.
 
