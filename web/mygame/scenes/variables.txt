@@ -18,13 +18,17 @@
 *set leadership 10
 *set strength 10
 
+*script updateStatBar();
+
 What do you prefer?
 *choice
   #Leadership
     *set leadership +10
+    *script updateStatBar();
     *goto action
   #Strength
     *set strength +10
+    *script updateStatBar();
 
 *label action
 What will you do today?
@@ -41,4 +45,5 @@ What will you do today?
       *finish
     You drop the weights and hurt yourself badly.  You never recover.
     
+    *script hideStatBar();
     *goto_scene death

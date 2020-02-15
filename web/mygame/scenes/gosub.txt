@@ -1,3 +1,5 @@
+*script hideStatBar();
+
 Under the hood, this chapter uses the gosub command to execute subroutines.
 
 The school bully is being mean to you.
