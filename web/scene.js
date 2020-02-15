@@ -874,6 +874,11 @@ Scene.prototype.standardResolution = function(option) {
   if (option.reuse && option.reuse != "allow") self.temps.choice_used[option.line-1] = 1;
   if (this.nav) this.nav.bugLog.push("#"+(option.line+1) + " " + option.name);
 
+  // Log choices to Matomo (and console.log)
+  console.log(window.nav.bugLog.join("\n"));
+  this.runCommand("*script _paq.push(['trackEvent', 'Choice', 'Select', window.nav.bugLog[window.nav.bugLog.length-1]]);");
+  this.printLine("");
+
   self.finished = false;
   self.resetPage();
 };
