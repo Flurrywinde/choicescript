@@ -1,15 +1,21 @@
 # choicescript
 This is my fork of dfabulich's ChoiceScript project (https://github.com/dfabulich/choicescript).
 
-**My choicescript website:** [https://flurrywinde.github.io/choicescript/](https://flurrywinde.github.io/choicescript/). (Right now it's nothing but a few works-in-progress I've barely started on, unfortunately. Mostly it's just there to show what one looks like, and if you follow the steps below, you can have one too.)
-
 ## <a name="myadditions"></a>My Additions
+
+* **Analytics:** See what choices your readers are making.
+
+* **Nice Parchment Theme** instead of the black on white default.
 
 * **Game Menu:** Run makeindex.sh (if you're on Linux (or Mac?). No Windows version yet.) to automatically generate a games list from the web/ folder. (This assumes you place your games in folders just like mygame/ .) This will create an index.md that will display when you go to your choicescript project's github webpage. You can also make an index.md by hand in markdown, and it will work the same way.
 
 * **Vim syntax and special functions:** If you use Vim (the greatest text editor ever made), get my [choicescript vim syntax, etc. files](https://github.com/Flurrywinde/vim-choicescript). It will make vim do syntax highlighting, auto-indent, enable text parts to fold up, let you auto-generate all of a \*choice's option blocks with a single key command, and much more.
 
-* That's it so far. More coming soon!
+* **Annotation:** Good for works-in-progress. Your readers can report typos, make suggestions, etc. right from inside the game.
+
+* Video: Add video to your games, not just images.
+
+* **Back-curl:** After viewing the stat or achievement screen, the main game text comes back from the left.
 
 ## How to use github for choicescripting
 
@@ -25,20 +31,18 @@ First off, git and github have a learning curve. Learning how to them might be h
 
 * **Your own website for your games:** You can setup your own website with a menu to all your games that's very easy to keep up-to-date. Before this, I had to FTP by hand all the time, and that gets old fast.
 
-* **Custom choicescript codebase:** I haven't tried this yet, but I plan to have different branches for each feature I add to the choicescript code. You could pick which feature(s) you want and merge it on in, not having to mess with modifying the code yourself.
-
-* And maybe other reasons why github is the coolest thing ever, but isn't this already enough?
+* **Custom choicescript codebase:** I have made different branches for each feature I add to the choicescript code. You can pick which feature(s) you want and merge it on in, not having to mess with modifying the code yourself.
 
 ### How to setup git
 
 - **Install git:** Find instructions online. (For example, this one looks good: https://gist.github.com/derhuerst/1b15ff4652a867391f03)
 
-- **Fork choicescript:** 
+- **Fork choicescript:**
   - Sign up on github.com
   - Go to [my fork of choicescript](https://github.com/Flurrywinde/choicescript)
   - Make a fork of my fork: Just hit the "Fork" button in the upper right.
 
-- **Clone your choicescript fork:** 
+- **Clone your choicescript fork:**
   - Go to your OS's command line interface.
   - Go to the folder you want to clone into, like, say, My Documents, or your Dropbox folder.
   - Type: `git clone https://github.com/[INSERT YOUR GITHUB USERNAME HERE]/choicescript.git` and hit Enter. This will create a new folder called `choicescript` containing all the code.
@@ -144,13 +148,13 @@ You could stop at this point, but what if you want a free website that hosts all
 - Hit the Save button.
 - A green box should appear that has the url to your website. Click it.
 - Enjoy your easily-updated online version of your games running in the latest choicescript code!
-  
+
 Well, I hope this has helped you get started using git with choicescript. If you have any questions, you can find me on the Choice of Games forum: https://forum.choiceofgames.com/users/flurrywinde11/
 
 ## UPDATE:
 
 ### <a name="easierway"></a> The Super Easy Way
-Okay, this way is even easier than the Easy Way, but you lose some of the benefits. You *still* get a free website that easily updates, though, and you also still get the, albeit inferior, version-control of the Easy Way. 
+Okay, this way is even easier than the Easy Way, but you lose some of the benefits. You *still* get a free website that easily updates, though, and you also still get the, albeit inferior, version-control of the Easy Way.
 
 What's missing is easily staying up-to-date with the choicescript code, and of course, all the features of the Hard Way. (But you can still update the choicescript code in much the same way you used to.)
 
@@ -162,7 +166,7 @@ Done that? Good. Now do the following steps:
 - **Make your user webpage:**
   - Go to: https://pages.github.com
   - Do steps 1 and 2. (Above Step 1, there's a button that says "Project site". Do NOT press it. Keep it on "User or organization site", because that is what we will be using.)
-  - Instead of step 3, copy the contents of your choicescript folder (which should now include your games folders) to the folder you made in step 2. 
+  - Instead of step 3, copy the contents of your choicescript folder (which should now include your games folders) to the folder you made in step 2.
   - Then continue on with the rest of the steps.
   - That's it! You now have a website for your games. (Did you get a 404 error? That's normal. Just add `web/[YOUR GAME'S FOLDERNAME]` at the end of the url to get to the games.)
 
@@ -172,6 +176,6 @@ This will make the frontpage of your website be a menu to your games instead of 
 
 Next, go to the [Keeping your github up-to-date](#workflow) section above. You will need to do this to keep your website up-to-date.
 
-Once again, you can find me on the [Choice of Games forum](https://forum.choiceofgames.com/users/flurrywinde11/). 
+Once again, you can find me on the [Choice of Games forum](https://forum.choiceofgames.com/users/flurrywinde11/).
 
 Happy choicescripting!
