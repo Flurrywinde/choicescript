@@ -27,7 +27,8 @@ function unloadHypothesis() {
 		document.querySelector('link[type="application/annotator+html"]');
 	if (appLinkEl) {
 		appLinkEl.dispatchEvent(new Event('destroy'));
-	};
+	}
+}
 
 function loadHypothesis() {
 	var embedScript = document.createElement('script');
