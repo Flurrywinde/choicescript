@@ -32,8 +32,8 @@ a {
   position: absolute; /* so containers can overlap */
   left: 0;
   right: 0;
-  margin: 0 8px;
-  padding-right: 25px;
+  /* margin: 0 8px;   For when there's no annotation sidebar */
+  margin: 0 28px 0 8px; /* To make room for annotation sidebar on right */
   animation-duration: 0.5s;
   -webkit-animation-duration: 0.5s;
   transition-property: opacity;
