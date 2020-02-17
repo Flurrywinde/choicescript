@@ -149,7 +149,7 @@ return r;},version:'0.2.1',enabled:false};me.enabled=alive.call(me);return me;}(
       'iosStorage',
       'localChromeStorage',
       'androidStorage',
-      'whatwg_db', 
+      // 'whatwg_db',   # Dirty hack: make work in chrome, etc.
       'localstorage',
       'globalstorage', 
       'cookie',
