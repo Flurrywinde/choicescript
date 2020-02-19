@@ -175,9 +175,15 @@ ChoiceScriptSavePlugin._populateSaveMenu = function(selectEle) {
                 option.innerHTML = "Failed to load save.";
                 return;
             } else {
-                var slotDesc = saveData.stats.sceneName + '.txt (' + simpleDateTimeFormat(new Date(parseInt(saves[i]))) + ')';
+				// var slotDesc = saveData.stats.sceneName + '.txt (' + simpleDateTimeFormat(new Date(parseInt(saves[i]))) + ')';
+				var slotDesc = saveData.stats.sceneName + '-' + saveData.lineNum + ' (' + simpleDateTimeFormat(new Date(parseInt(saves[i]))) + ')';   // Kanon likes line numbers and no .txt
                 if (saveData.temps._saveName) {
-                    slotDesc = saveData.temps._saveName + " &mdash; " + slotDesc;
+					if (saveData.temps._saveName == 'Quick Save') {
+						// Kanon likes this format better
+						slotDesc = slotDesc + ' (Quick Save)';
+					} else {
+						slotDesc = saveData.temps._saveName + " &mdash; " + slotDesc;
+					}
                 }
                 option.innerHTML = slotDesc;
             }
