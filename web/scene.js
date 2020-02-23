@@ -872,7 +872,7 @@ Scene.prototype.standardResolution = function(option) {
   self.lineNum = option.line;
   self.indent = self.getIndent(self.nextNonBlankLine(true/*includingThisOne*/));
   if (option.reuse && option.reuse != "allow") self.temps.choice_used[option.line-1] = 1;
-  if (this.nav) this.nav.bugLog.push("#"+(option.line+1) + " " + option.name);
+  if (this.nav) this.nav.bugLog.push(self.name+"#"+(option.line+1) + " " + option.name);
 
   // Log choices to Matomo (and console.log)
   console.log(window.nav.bugLog.join("\n"));
