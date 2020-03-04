@@ -453,7 +453,7 @@ Scene.prototype.loadLinesFast = function loadLinesFast(crc, lines, labels) {
 Scene.prototype.loadScene = function loadScene() {
     if (this.loading) return;
     this.loading = true;
-    if (window.isFile) return this.loadFile();
+	// if (window.isFile) return this.loadFile();
     startLoading();
     var url = Scene.baseUrl + "/" + this.name + ".txt";
     var xhr = findXhr();
