@@ -1019,15 +1019,23 @@ function printOptionRadioButton(div, name, option, localChoiceNumber, globalChoi
 
 function printImage(source, alignment, alt, invert) {
   var img = document.createElement("img");
+  // Kanon added:
+  if (alignment == "full") {
+         alignment = "";
+         fullwidth = "full-width ";
+  } else {
+         fullwidth = "";
+  }
+
   if (typeof hashes != 'undefined' && hashes[source]) {
     source += "?hash=" + hashes[source];
   }
   img.src = source;
   if (alt !== null && String(alt).length > 0) img.setAttribute("alt", alt);
   if (invert) {
-    setClass(img, "invert align"+alignment);
+    setClass(img, fullwidth+"invert align"+alignment);
   } else {
-    setClass(img, "align"+alignment);
+    setClass(img, fullwidth+"align"+alignment);
   }
   document.getElementById("text").appendChild(img);
 }
