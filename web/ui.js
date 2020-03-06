@@ -48,6 +48,19 @@ function printx(msg, parent) {
     parent.appendChild(frag);
 }
 
+function makeStyleSpan(match, p1) {
+	var re = /\s*(\S*)/g,
+		spanstyle = '<span style="';
+
+	while (style = re.exec(p1)) {
+		if (style[1])
+			spanstyle += validStyles[style[1]];
+		else
+			break;
+	}
+	return spanstyle += '">';
+}
+
 function replaceBbCode(msg) {
   return msg = String(msg).replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -63,6 +76,8 @@ function replaceBbCode(msg) {
       .replace(/\[\/i\]/g, '</i>')
       .replace(/\u2022([\s\S]*)/, '<ul>•$1</ul>')
       .replace(/\u2022([^\u2022]*)/g, '<li>$1</li>')
+      .replace(/\[style=(.*?)\]/g, makeStyleSpan)
+      .replace(/\[\/style\]/g, '</span>')
 }
 
 function println(msg, parent) {
@@ -3513,3 +3528,8 @@ function reinjectNavigator() {
     nav.repairStats(scene.stats);
   }
 }
+
+validStyles =  {'green':'color: green; ',
+				'bold':'font-weight: bolder; ',
+				'white-bg':'background-color: white; ',
+				'gray-bg':'background-color: gray; '}
