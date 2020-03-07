@@ -48,6 +48,13 @@ software distributed under the License is distributed on an
 either express or implied.
 
 *page_break
+[b]Themes Demo[/b]
+
+*fake_choice
+  #Apply theme
+    *script addCss('../reset.css');
+    *script addCss('../style3.css');
+  #Don't apply theme
 
 Your majesty, your people are starving in the streets, and threaten revolution.
 Our enemies to the west are weak, but they threaten soon to invade.  What will you do?
