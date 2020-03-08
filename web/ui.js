@@ -1041,28 +1041,40 @@ function makeAltImageUrl(server, source) {
 	return server + '/' + lastSeg + '/' + source;   // Fix for when source isn't usual case.
 }
 
+/* To enable access to a remote folder:
+ * 
+ * Add to .htaccess:
+ *
+ *   <IfModule mod_headers.c>
+ *   <FilesMatch "\.(ttf|ttc|otf|eot|woff|woff2|font.css|css|js|jpg|gif|jpeg|png|svg|JPG|JPEG|GIF|PNG|SVG|Jpg|Jpeg|Gif|Png|Svg)$">
+ *         Header set Access-Control-Allow-Origin "*"
+ *   </FilesMatch>
+ *   </IfModule>
+ *         
+ * Perhaps should require credentials or specified origins, not "*". */
+
 function fixSource(address, img, altServerIndex) {
-  var client = new XMLHttpRequest();
-  client.onreadystatechange = function() {
-    // in case of network errors this might not give reliable results
-	if (this.readyState == this.DONE) {
-		if (this.response) {   // (this.status == 200) if change HEAD to GET. For now, assume any response as success? I think could also check this.responseURL at this.readyState == 2 or 4 (this.DONE and this.HEADERS_RECEIVED respectively)
-			// console.log("Found " + address);
-		} else {
-			if (altimageservers[altServerIndex]) {
-				newaddress = makeAltImageUrl(altimageservers[altServerIndex], address);
-				// console.log("Trying " + newaddress);
-				img.src = newaddress;
-				fixSource(address, img, ++altServerIndex);
+	var client = new XMLHttpRequest();
+	client.onreadystatechange = function() {
+	// in case of network errors this might not give reliable results
+		if (this.readyState == this.DONE) {
+			if (this.response || this.status == 200) {   // For local files, a this.response seems to mean success, but is missing for remotes, where this.status == 200 applies. (I think could also check this.responseURL at this.readyState == 2 or 4 (this.DONE and this.HEADERS_RECEIVED respectively) for local files and maybe remote also (?).)
+				// console.log("Found " + address);
 			} else {
-				// console.log("Exhausted all possible servers");
-				img.src = address;
+				if (altimageservers[altServerIndex]) {
+					newaddress = makeAltImageUrl(altimageservers[altServerIndex], address);
+					// console.log("Trying " + newaddress);
+					img.src = newaddress;
+					fixSource(address, img, ++altServerIndex);
+				} else {
+					// console.log("Exhausted all possible servers");
+					img.src = address;
+				}
 			}
 		}
 	}
-  }
-  client.open( "HEAD", img.src, true );
-  client.send();
+	client.open( "HEAD", img.src, true );
+	client.send();
 }
 
 function printImage(source, alignment, alt, invert) {
@@ -1087,7 +1099,6 @@ function printImage(source, alignment, alt, invert) {
   }
   // Check if source is missing and fix if possible.
   if (typeof altimageservers !== 'undefined' && source.substr(0, 7) != 'http://' && source.substr(0, 8) != 'https://') {
-	console.log("Calling fixSource on " + source);
 	fixSource(source, img, 0);
   }
   document.getElementById("text").appendChild(img);
