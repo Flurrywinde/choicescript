@@ -1010,48 +1010,21 @@ function makeAltImageUrl(server, source) {
 	return server + '/' + lastSeg + '/' + source;   // Fix for when source isn't usual case.
 }
 
-/* Synchronous way. Gives deprecation warning. Alerts on fail, then aborts loading page.
-function fetchStatus(urlToFile) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('HEAD', urlToFile, false);
-    xhr.send();
-
-    if (xhr.status == "200") {
-        console.log("File exists");
-        return true;
-    } else {
-        console.log("File doesn't exist");
-        return false;
-    }
-} */
-
-var getKeys = function(obj){
-   var keys = [];
-   for(var key in obj){
-        keys.push(key + " -> " + obj[key]);
-   }
-   return keys;
-}
-
 function fixSource(address, img, altServerIndex) {
   var client = new XMLHttpRequest();
   client.onreadystatechange = function() {
     // in case of network errors this might not give reliable results
-    if (this.readyState == this.HEADERS_RECEIVED) {
-		console.log(getKeys(this));
-	} else if (this.readyState == this.DONE) {
-		// console.log("A: " + address + " (" + img.src + ", S: " + this.status + "(" + client.status + ")");
-		console.log(getKeys(this));
-		if (this.response) {   // (this.status == 200) if change HEAD to GET. For now, assume any response as success? I think could also check this.responseURL at this.readyState == 2 or 4
-			console.log("Found " + address);
+	if (this.readyState == this.DONE) {
+		if (this.response) {   // (this.status == 200) if change HEAD to GET. For now, assume any response as success? I think could also check this.responseURL at this.readyState == 2 or 4 (this.DONE and this.HEADERS_RECEIVED respectively)
+			// console.log("Found " + address);
 		} else {
 			if (altimageservers[altServerIndex]) {
 				newaddress = makeAltImageUrl(altimageservers[altServerIndex], address);
-				console.log("Trying " + newaddress);
+				// console.log("Trying " + newaddress);
 				img.src = newaddress;
 				fixSource(address, img, ++altServerIndex);
 			} else {
-				console.log("Exhausted all possible servers");
+				// console.log("Exhausted all possible servers");
 				img.src = address;
 			}
 		}
