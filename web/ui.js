@@ -1001,6 +1001,66 @@ function printOptionRadioButton(div, name, option, localChoiceNumber, globalChoi
     div.appendChild(div2);
 }
 
+// Define array of alternate image (or other media) servers. Should not hardcode like this but rather allow author to set it via a command or in mygame.js. Put in preferred order. Required: No ending / .
+altimageservers = ['../../../../Documents/csmedia', 'https://herbaloutfitters.com/cs/web/csmedia'];
+
+function makeAltImageUrl(server, source) {
+	var parts = window.location.href.split('/');
+	var lastSeg = parts[parts.length-2];
+	return server + '/' + lastSeg + '/' + source;   // Fix for when source isn't usual case.
+}
+
+/* Synchronous way. Gives deprecation warning. Alerts on fail, then aborts loading page.
+function fetchStatus(urlToFile) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('HEAD', urlToFile, false);
+    xhr.send();
+
+    if (xhr.status == "200") {
+        console.log("File exists");
+        return true;
+    } else {
+        console.log("File doesn't exist");
+        return false;
+    }
+} */
+
+var getKeys = function(obj){
+   var keys = [];
+   for(var key in obj){
+        keys.push(key + " -> " + obj[key]);
+   }
+   return keys;
+}
+
+function fixSource(address, img, altServerIndex) {
+  var client = new XMLHttpRequest();
+  client.onreadystatechange = function() {
+    // in case of network errors this might not give reliable results
+    if (this.readyState == this.HEADERS_RECEIVED) {
+		console.log(getKeys(this));
+	} else if (this.readyState == this.DONE) {
+		// console.log("A: " + address + " (" + img.src + ", S: " + this.status + "(" + client.status + ")");
+		console.log(getKeys(this));
+		if (this.response) {   // (this.status == 200) if change HEAD to GET. For now, assume any response as success? I think could also check this.responseURL at this.readyState == 2 or 4
+			console.log("Found " + address);
+		} else {
+			if (altimageservers[altServerIndex]) {
+				newaddress = makeAltImageUrl(altimageservers[altServerIndex], address);
+				console.log("Trying " + newaddress);
+				img.src = newaddress;
+				fixSource(address, img, ++altServerIndex);
+			} else {
+				console.log("Exhausted all possible servers");
+				img.src = address;
+			}
+		}
+	}
+  }
+  client.open( "HEAD", img.src, true );
+  client.send();
+}
+
 function printImage(source, alignment, alt, invert) {
   var img = document.createElement("img");
   if (typeof hashes != 'undefined' && hashes[source]) {
@@ -1012,6 +1072,11 @@ function printImage(source, alignment, alt, invert) {
     setClass(img, "invert align"+alignment);
   } else {
     setClass(img, "align"+alignment);
+  }
+  // Check if source is missing and fix if possible.
+  if (typeof altimageservers !== 'undefined' && source.substr(0, 7) != 'http://' && source.substr(0, 8) != 'https://') {
+	console.log("Calling fixSource on " + source);
+	fixSource(source, img, 0);
   }
   document.getElementById("text").appendChild(img);
 }
