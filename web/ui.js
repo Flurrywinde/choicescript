@@ -1032,6 +1032,39 @@ function printOptionRadioButton(div, name, option, localChoiceNumber, globalChoi
     div.appendChild(div2);
 }
 
+// Define array of alternate image (or other media) servers. Should not hardcode like this but rather allow author to set it via a command or in mygame.js. Put in preferred order. Required: No ending / .
+altimageservers = ['../../../../Documents/csmedia', 'https://herbaloutfitters.com/cs/web/csmedia'];
+
+function makeAltImageUrl(server, source) {
+	var parts = window.location.href.split('/');
+	var lastSeg = parts[parts.length-2];
+	return server + '/' + lastSeg + '/' + source;   // Fix for when source isn't usual case.
+}
+
+function fixSource(address, img, altServerIndex) {
+  var client = new XMLHttpRequest();
+  client.onreadystatechange = function() {
+    // in case of network errors this might not give reliable results
+	if (this.readyState == this.DONE) {
+		if (this.response) {   // (this.status == 200) if change HEAD to GET. For now, assume any response as success? I think could also check this.responseURL at this.readyState == 2 or 4 (this.DONE and this.HEADERS_RECEIVED respectively)
+			// console.log("Found " + address);
+		} else {
+			if (altimageservers[altServerIndex]) {
+				newaddress = makeAltImageUrl(altimageservers[altServerIndex], address);
+				// console.log("Trying " + newaddress);
+				img.src = newaddress;
+				fixSource(address, img, ++altServerIndex);
+			} else {
+				// console.log("Exhausted all possible servers");
+				img.src = address;
+			}
+		}
+	}
+  }
+  client.open( "HEAD", img.src, true );
+  client.send();
+}
+
 function printImage(source, alignment, alt, invert) {
   var img = document.createElement("img");
   // Kanon added:
@@ -1051,6 +1084,11 @@ function printImage(source, alignment, alt, invert) {
     setClass(img, fullwidth+"invert align"+alignment);
   } else {
     setClass(img, fullwidth+"align"+alignment);
+  }
+  // Check if source is missing and fix if possible.
+  if (typeof altimageservers !== 'undefined' && source.substr(0, 7) != 'http://' && source.substr(0, 8) != 'https://') {
+	console.log("Calling fixSource on " + source);
+	fixSource(source, img, 0);
   }
   document.getElementById("text").appendChild(img);
 }
