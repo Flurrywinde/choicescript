@@ -875,8 +875,11 @@ Scene.prototype.standardResolution = function(option) {
   if (this.nav) this.nav.bugLog.push(self.name+"#"+(option.line+1) + " " + option.name);
 
   // Log choices to Matomo (and console.log)
-  console.log(window.nav.bugLog.join("\n"));
-  this.runCommand("*script _paq.push(['trackEvent', 'Choice', 'Select', window.nav.bugLog[window.nav.bugLog.length-1]]);");
+  if (typeof _paq !== 'undefined') {
+    console.log(window.nav.bugLog.join("\n"));
+    this.runCommand("*script _paq.push(['trackEvent', 'Choice', 'Select', window.nav.bugLog[window.nav.bugLog.length-1]]);");
+  }
+
   this.printLine("");
 
   self.finished = false;
