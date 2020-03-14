@@ -1166,3 +1166,30 @@ function remoteConfig(variable, callback) {
   }
   callIos("remoteconfig", variable + " " + nonce);
 }
+
+function getMeta(varA, varB) {
+	if (typeof varB !== 'undefined') {
+		// alert(varA + ' width ' + varB + ' height');
+	} else {
+		var img = new Image();
+		img.src = varA;
+		img.onload = function() {
+			getMeta(this.width, this.height);
+		}
+	}
+}
+
+function preloadImages() {
+    var lineLength = this.lines.length;
+    for (var lineNum = 0; lineNum < lineLength; lineNum++) {
+        var line = this.lines[lineNum];
+        var result = /^(\s*)\*(\w+)(.*)/.exec(line);
+        if (!result) continue;
+        var command = result[2].toLowerCase();
+        var data = trim(result[3]);
+        if ("image" == command) {
+			getMeta(data);
+		}
+	}
+}
+
