@@ -1167,19 +1167,97 @@ function remoteConfig(variable, callback) {
   callIos("remoteconfig", variable + " " + nonce);
 }
 
-function getMeta(varA, varB) {
-	if (typeof varB !== 'undefined') {
-		// alert(varA + ' width ' + varB + ' height');
+preloadedMedia = {};
+
+function getMedia(src, type, wait) {
+	if (typeof preloadedMedia[src] !== 'undefined') {
+		return preloadedMedia[src];
+	} else if (type == 'image') {
+		return preloadImage(src);
+	} else if (type == 'sound') {
+		return preloadSound(src);
+	} else if (type == 'video') {
+		return preloadVideo(src);
+	}
+	return null;
+}
+
+function getValidSource(source) {
+	// Doesn't do anything yet, but will!
+	return source;
+}
+
+function preloadImage(pathOrWidth, height, img, source) {
+	if (typeof height !== 'undefined') {
+		// Second time around: preloadImage has called itself via onload event
+		preloadedMedia[source] = {mediaElt: img, width: pathOrWidth, height: height};
+		return preloadedMedia[img.src];
 	} else {
-		var img = new Image();
-		img.src = varA;
-		img.onload = function() {
-			getMeta(this.width, this.height);
+		// First time around
+		pathOrWidth = pathOrWidth || "";
+		var match = /(\S+) (\S+)(.*)/.exec(pathOrWidth);
+		var source;
+		if (match) {
+			source = match[1];
+		} else {
+			source = pathOrWidth;
+		}
+		if (typeof preloadedMedia[source] !== 'undefined') {
+			// Already preloaded
+			return preloadedMedia[source];
+		} else {
+			// Not preloaded yet, so create, and wait for it (asynchronously)
+			// var img = new Image();   // will createElement also preload it?
+			var img = document.createElement("img");
+			img.src = getValidSource(source);
+			img.onload = function() {
+				preloadImage(this.width, this.height, img, source);
+			}
+			// Put in preloadedMedia array without height and width info. (If the game tries to load it, no error, it just won't have that info available yet. Should it wait instead?)
+			preloadedMedia[source] = {mediaElt: img};
 		}
 	}
 }
 
-function preloadImages() {
+function preloadSound(source) {
+	source = getValidSource(source);
+	if (typeof preloadedMedia[source] !== 'undefined') {
+		return preloadedMedia[source];
+	} else {
+		var audio = document.createElement("audio");
+		if (audio.play) {
+			audio.setAttribute("src", source);
+		}
+		preloadedMedia[source] = {mediaElt: audio};
+		return preloadedMedia[source];
+	}
+}
+
+function preloadVideo(data) {
+	data = data || "";
+	var match = /(\S+) (.*)/.exec(data);
+	var source, options = '';
+	if (match) {
+		source = match[1];
+		options = match[2];
+	} else {
+		source = data;
+	}
+	source = getValidSource(source);
+	if (typeof preloadedMedia[source] !== 'undefined') {
+		return preloadedMedia[source];
+	} else {
+		var video = document.createElement("video");
+		if (video.play) {
+			video.setAttribute("src", source);
+		}
+		preloadedMedia[source] = {mediaElt: audio, options: options};
+		return preloadedMedia[source];
+	}
+}
+
+function preloader() {
+	preloadedMedia = {};
     var lineLength = this.lines.length;
     for (var lineNum = 0; lineNum < lineLength; lineNum++) {
         var line = this.lines[lineNum];
@@ -1188,7 +1266,12 @@ function preloadImages() {
         var command = result[2].toLowerCase();
         var data = trim(result[3]);
         if ("image" == command) {
-			getMeta(data);
+			preloadImage(data);
+		} else if ("sound" == command) {
+			preloadSound(data);
+		} else if ("video" == command) {
+			// For when I eventually implement this command
+			preloadVideo(data);
 		}
 	}
 }

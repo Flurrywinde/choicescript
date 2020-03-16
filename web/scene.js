@@ -672,7 +672,7 @@ Scene.prototype.loadLines = function loadLines(str) {
     this.crc = crc32(str);
     this.lines = str.split(/\r?\n/);
     this.parseLabels();
-    safeCall(this, preloadImages);
+    safeCall(this, preloader);
     this.loaded = true;
 };
 

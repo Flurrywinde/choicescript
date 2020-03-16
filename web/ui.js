@@ -1002,33 +1002,45 @@ function printOptionRadioButton(div, name, option, localChoiceNumber, globalChoi
 }
 
 function printImage(source, alignment, alt, invert) {
-  var img = document.createElement("img");
-  if (typeof hashes != 'undefined' && hashes[source]) {
-    source += "?hash=" + hashes[source];
+  var imgStruct = getMedia(source, "image");
+  if (typeof imgStruct === 'undefined') {
+	return;
   }
-  img.src = source;
+  img = imgStruct.mediaElt;
+  if (typeof img === 'undefined') {
+	return;
+  }
+  if (typeof hashes != 'undefined' && hashes[source]) {
+    img.src = img.src += "?hash=" + hashes[source];
+  }
   if (alt !== null && String(alt).length > 0) img.setAttribute("alt", alt);
   if (invert) {
     setClass(img, "invert align"+alignment);
   } else {
     setClass(img, "align"+alignment);
   }
+  if (typeof imgStruct.width !== 'undefined') {
+    img.width = imgStruct.width;
+  }
+  if (typeof imgStruct.height !== 'undefined') {
+    img.height = imgStruct.height;
+  }
   document.getElementById("text").appendChild(img);
 }
 
 function playSound(source) {
+  var audio = getMedia(source, "audio").mediaElt;
+  if (audio === null) {
+	return;
+  }
   for (var existingAudios = document.getElementsByTagName("audio"); existingAudios.length;) {
     existingAudios[0].parentNode.removeChild(existingAudios[0]);
   }
   if (typeof hashes != 'undefined' && hashes[source]) {
-    source += "?hash=" + hashes[source];
+    audio.src += "?hash=" + hashes[source];
   }
-  var audio = document.createElement("audio");
-  if (audio.play) {
-    audio.setAttribute("src", source);
-    document.body.appendChild(audio);
-    audio.play();
-  }
+  document.body.appendChild(audio);
+  audio.play();
 }
 
 function printYoutubeFrame(slug) {
