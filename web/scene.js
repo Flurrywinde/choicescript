@@ -3787,6 +3787,10 @@ Scene.prototype.functions = {
   },
   auto: function() {
     throw new Error(this.lineMsg()+"Invalid expression, auto() must come after a < or > symbol");
+  },
+  spell: function(value) {
+    if (isNaN(value*1)) throw new Error(this.lineMsg()+"spell() value is not a number: " + value);
+    return spell(value);
   }
 };
 
@@ -4295,7 +4299,7 @@ Scene.tokens = [
     {name:"CLOSE_CURLY", test:function(str){ return Scene.regexpMatch(str,/^\}/); } },
     {name:"OPEN_SQUARE", test:function(str){ return Scene.regexpMatch(str,/^\[/); } },
     {name:"CLOSE_SQUARE", test:function(str){ return Scene.regexpMatch(str,/^\]/); } },
-    {name:"FUNCTION", test:function(str){ return Scene.regexpMatch(str,/^(not|round|timestamp|log|length|auto)\s*\(/); } },
+    {name:"FUNCTION", test:function(str){ return Scene.regexpMatch(str,/^(not|round|timestamp|log|length|auto|spell)\s*\(/); } },
     {name:"NUMBER", test:function(str){ return Scene.regexpMatch(str,/^\d+(\.\d+)?\b/); } },
     {name:"STRING", test:function(str, line) {
             var i;
