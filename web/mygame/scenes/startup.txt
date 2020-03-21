@@ -29,19 +29,21 @@
 *create strength 50
 *create knights 39
 
-[style=bold font150]New Feature Demo Section[/style]
+[style=bold center soft-shadow font150]New Feature Demo Section[/style]
 
-[b]Spell Out Numbers[/b]
+[style=soft-shadow bold]Spell Out Numbers[/style]
 
 Now you can spell out numbers. [b]Example:[/b]
 
 Great news, Your Majesty! You now have ${spell({knights})} knight@{(knights = 1) |s} in your retinue. $!!{spell({knights})}! That's a lot!
 
-[b]Styles[/b]
+[style=soft-shadow bold]Styles[/b]
 
-Now you can style text in just about every possible way, like [style=font150]size, [style=red]c[/style][style=blue]o[/style][style=green]l[/style][style=purple]o[/style][style=red]r[/style], [style=white black-bg]back[/style][style=black gray-bg]grounds[/style][/style], etc, etc.
+Now you can style text in just about every [style=boxed rounded-corners padding5]possible[/style] way, like [style=font150]size, [style=boxed rounded-corners padding5][style=red]c[/style][style=blue]o[/style][style=green]l[/style][style=purple]o[/style][style=red]r[/style][/style], [style=white black-bg]back[/style][style=black gray-bg]grounds[/style][/style], etc, etc.
 
-[style=font150]big, [style=font150]bigger, [style=font150]and even biggerer[/style][/style][/style]
+[style=font150]big, [style=font150]bigger, [style=font150]and even biggerer! [style=yellow black-bg white-glow rounded-corners padding20]Big and glowing[/style][/style][/style][/style]
+
+[style=font150 blue white-bg][style=heavy-shadow]Heavy [/style][style=soft-shadow]Light [/style][style=3d font150 white black-bg padding10][style=font150]3-dimensional [/style][/style][/style][style=inset bold font150 padding15][style=font200]INSET [/style][/style]And... back to regular. Mix and match styles in any way.
 
 *page_break Continue on to original mygame
 
