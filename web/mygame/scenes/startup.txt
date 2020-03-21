@@ -27,10 +27,11 @@
 
 *create leadership 50
 *create strength 50
+*create knights 39
 
 [b]New Feature Demo Section[/b]
 
-Log of leadership is ${log({leadership})}, but what was it originally? It was ${spell({leadership})}, that's what it was. You know, as in: ${leadership}.
+Great news, Your Majesty! You now have ${spell({knights})} knight@{(knights = 1) |s} in your retinue. $!!{spell({knights})}! That's a lot!
 
 *page_break Continue on to original mygame
 
