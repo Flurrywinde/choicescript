@@ -1,4 +1,5 @@
-# choicescript
+# ChoiceScript
+
 This is my fork of dfabulich's ChoiceScript project (https://github.com/dfabulich/choicescript).
 
 ## <a name="myadditions"></a>My Additions
@@ -16,6 +17,9 @@ This is my fork of dfabulich's ChoiceScript project (https://github.com/dfabulic
 * **Video:** Add video to your games, not just images.
 
 * **Back-curl:** After viewing the stat or achievement screen, the main game text comes back from the left.
+
+* **Styles:** Now you can do something like this: `[style=bold red]Now I will be both bold and red![/style]`.
+
 
 ## How to use github for choicescripting
 
