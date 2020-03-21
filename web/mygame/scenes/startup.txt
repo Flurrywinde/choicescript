@@ -32,9 +32,9 @@
 
 [style=soft-shadow bold]Styles[/b]
 
-Now you can style text in just about every [style=boxed rounded-corners padding5]possible[/style] way, like [style=font150]size, [style=boxed rounded-corners padding5][style=red]c[/style][style=blue]o[/style][style=green]l[/style][style=purple]o[/style][style=red]r[/style][/style], [style=white black-bg]back[/style][style=black gray-bg]grounds[/style][/style], etc, etc.
+Now [style=ul]you[/style] [style=s]can't[/style] can style text in just about every [style=boxed rounded-corners padding5]possible[/style] way, like [style=font150]size, [style=boxed rounded-corners padding5][style=red]c[/style][style=blue]o[/style][style=green]l[/style][style=purple]o[/style][style=red]r[/style][/style], [style=white black-bg]back[/style][style=black gray-bg]grounds[/style][/style], etc, etc.
 
-[style=font150]big, [style=font150]bigger, [style=font150]and even biggerer! [style=yellow black-bg white-glow rounded-corners padding20]Big and glowing[/style][/style][/style][/style]
+[style=font150]Big, [style=font150]Bigger, [style=font150 smallcaps]And Even Biggerer! [style=font50](and that was in [style=font-sm]smallcaps[/style] too!)[/style] [style=yellow black-bg white-glow rounded-corners padding20]Big and glowing[/style][/style][/style][/style]
 
 [style=font150 blue white-bg][style=heavy-shadow]Heavy [/style][style=soft-shadow]Light [/style][style=3d font150 white black-bg padding10][style=font150]3-dimensional [/style][/style][/style][style=inset bold font150 padding15][style=font200]INSET [/style][/style]And... back to regular. Mix and match styles in any way.
 
