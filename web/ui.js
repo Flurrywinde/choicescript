@@ -3530,6 +3530,14 @@ function reinjectNavigator() {
 }
 
 validStyles =  {'green':'color: green; ',
+				'red':'color: red; ',
+				'blue':'color: blue; ',
+				'purple':'color: purple; ',
+				'yellow':'color: yellow; ',
+				'white':'color: white; ',
+				'black':'color: black; ',
 				'bold':'font-weight: bolder; ',
 				'white-bg':'background-color: white; ',
-				'gray-bg':'background-color: gray; '}
+				'black-bg':'background-color: black; ',
+				'gray-bg':'background-color: gray; ',
+				'font150':'font-size: 150%; '}
