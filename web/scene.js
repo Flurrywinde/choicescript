@@ -4184,6 +4184,25 @@ Scene.prototype.achievement = function scene_achievement(data) {
   if (typeof setButtonTitles != "undefined") setButtonTitles();
 };
 
+// Example: *style main_background green border=2 rgba=(0, 100, 0, 0.4)
+Scene.prototype.style = function style(data) {
+    data = data || "";
+    data = this.replaceVariables(data);
+    var match = /(\S+)\s+(.*)/.exec(data);
+    if (match) {
+      var selector = match[1];
+      var attributes = match[2];
+    } else {
+        throw new Error(this.lineMsg()+"*style requires a selector followed by attributes");
+    }
+/* Still from *image to use as model:   if (source === "") throw new Error(this.lineMsg()+"*image requires the file name of an image");
+    alignment = alignment || "center";
+    if (!/(right|left|center|none)/.test(alignment)) throw new Error(this.lineMsg()+"Invalid alignment, expected right, left, center, or none: " + data);
+    printImage(source, alignment, alt, invert);
+    if (this.verifyImage) this.verifyImage(source);
+    if (alignment == "none") this.prevLine = "text";
+    this.screenEmpty = false; */
+};
 
 Scene.prototype.bug = function scene_bug(message) {
   if (message) {
@@ -4387,7 +4406,7 @@ Scene.operators = {
     "modulo": function modulo(v1,v2,line) { return num(v1,line) % num(v2,line); },
 };
 
-Scene.initialCommands = {"create":1,"scene_list":1,"title":1,"author":1,"comment":1,"achievement":1,"product":1};
+Scene.initialCommands = {"create":1,"scene_list":1,"title":1,"author":1,"comment":1,"achievement":1,"product":1,"style":1};
 
 Scene.validCommands = {"comment":1, "goto":1, "gotoref":1, "label":1, "looplimit":1, "finish":1, "abort":1,
     "choice":1, "create":1, "temp":1, "delete":1, "set":1, "setref":1, "print":1, "if":1, "rand":1,
@@ -4400,5 +4419,5 @@ Scene.validCommands = {"comment":1, "goto":1, "gotoref":1, "label":1, "looplimit
     "restart":1,"more_games":1,"delay_ending":1,"end_trial":1,"login":1,"achieve":1,"scene_list":1,"title":1,
     "bug":1,"link_button":1,"check_registration":1,"sound":1,"author":1,"gosub_scene":1,"achievement":1,
     "check_achievements":1,"redirect_scene":1,"print_discount":1,"purchase_discount":1,"track_event":1,
-    "timer":1,"youtube":1,"product":1,"text_image":1,"params":1,"config":1
+    "timer":1,"youtube":1,"product":1,"text_image":1,"params":1,"config":1,"style":1
     };
