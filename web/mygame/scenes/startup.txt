@@ -27,16 +27,61 @@
 
 *create leadership 50
 *create strength 50
+*create implicit_control_flow true
+
+*temp password "xyzzy"
+*temp sawpassword false
+*temp secretclick false
+*temp fontsize 150
+*temp linkcolor "blue"
 
 [style=bold center soft-shadow font150]New Feature Demo Section[/style]
 
+[style=soft-shadow bold]Popups[/b]
+
+[style=show_popup=popup]Click to show popup[/style]
+[style=popup id=popup]I am a popup[/style]
+
 [style=soft-shadow bold]Styles[/b]
 
-Now [style=ul]you[/style] [style=s]can't[/style] can style text in just about every [style=boxed rounded-corners padding5]possible[/style] way, like [style=font150]size, [style=boxed rounded-corners padding5][style=red]c[/style][style=blue]o[/style][style=green]l[/style][style=purple]o[/style][style=red]r[/style][/style], [style=white black-bg]back[/style][style=black gray-bg]grounds[/style][/style], etc, etc.
+Now [style=u]you[/style] [style=s]can't[/style] can style text in just about every [style=boxed rounded-corners padding5]possible[/style] way, like [style=font150]size, [style=boxed rounded-corners padding5][style=red]c[/style][style=blue]o[/style][style=green]l[/style][style=purple]o[/style][style=red]r[/style][/style], [style=white black-bg]back[/style][style=black gray-bg]grounds[/style][/style], etc, [style=font-reg]etc.[/style]
 
-[style=font150]Big, [style=font150]Bigger, [style=font150 smallcaps]And Even Biggerer! [style=font50](and that was in [style=font-sm]smallcaps[/style] too!)[/style] [style=yellow black-bg white-glow rounded-corners padding20]Big and glowing[/style][/style][/style][/style]
+[style=font150]Big, [style=font150]Bigger, [style=font150 smallcaps]And Even Biggerer![/style] [style=font-reg](and that was in [style=font-sm]smallcaps[/style] too!)[/style] [style=yellow black-bg white-glow rounded-corners padding20]Big and glowing[/style][/style][/style]
 
-[style=font150 blue white-bg][style=heavy-shadow]Heavy [/style][style=soft-shadow]Light [/style][style=3d font150 white black-bg padding10][style=font150]3-dimensional [/style][/style][/style][style=inset bold font150 padding15][style=font200]INSET [/style][/style]And... back to regular. Mix and match styles in any way.
+[style=font150 purple white-bg][style=heavy-shadow]Heavy [/style][style=soft-shadow]Light [/style][style=3d font150 white black-bg padding10][style=font150]3-dimensional [/style][/style][/style][style=inset bold font150 padding15][style=font200]INSET [/style][/style]And... back to regular. Mix and match styles in any way!
+
+[style=${linkcolor} font150 underline-dotted]Psst![/style] I have a [style=click_stat=secretclick toggle_display_id_block=secret]secret[/style] [style=${linkcolor} u pointer display_id=secret display_stat=sawpassword font${fontsize}]message[/style] for you. [style=id=secret flash-bg nodisplay ]The password is '[style=red]${password}[/style]'![/style] Did you [style=${linkcolor} font150 underline-dashed]see[/style] it?
+*page_break Enter password
+*if not(sawpassword)
+  You did not see the password.
+  *if secretclick
+    Or did you! Hmm... Something's suspicious... Well...
+  *else
+    But you can guess anyway!
+*else
+  I hope you remembered the password!
+
+*temp guess
+What is the password?
+*label guesspassword
+*input_text guess
+
+*if guess = password
+  Correct!
+  *if not(sawpassword)
+    How did you know???
+    *if secretclick
+      I think maybe you cheated somehow!
+  *else
+
+    And yeah, all is well and good. You may pass... But! There is still a [i]secret[/i] in the previous page... See if you can find it!
+*else
+  That is not the password.
+  *if secretclick
+    I guess my suspicions were incorrect. You get another chance!
+  *else
+    Try again!
+  *goto guesspassword
 
 *page_break Continue on to original mygame
 

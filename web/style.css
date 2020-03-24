@@ -473,3 +473,12 @@ body.whitemode .next:hover {
   }
   
 }
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+@keyframes flashBg {
+  from {background-color: red;}
+  to {opacity:1 ;}
+}
