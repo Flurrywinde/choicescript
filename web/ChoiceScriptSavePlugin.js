@@ -24,38 +24,32 @@ Scene.prototype.sm_delete = function(line) {
 }
 
 Scene.prototype.sm_update = function() {
-    var self = this;
-    self.stats._sm_save_count = 0;
+    if (typeof this.stats._sm_save_count === "undefined")
+        this.stats._sm_save_count = 0;
     ChoiceScriptSavePlugin._getSaveList(function(saveList) {
         if (!saveList)
             return;
-        saveList.forEach(function(save) {
-            ChoiceScriptSavePlugin._getSaveData(save, function(saveData) {
-                if (saveData) {
-                    self.stats["_sm_save_id_" + i] = save;
-                    self.stats["_sm_save_name_" + i] = saveData.stats._smSaveName || "";
-                    self.stats["_sm_save_date_" + i] = simpleDateTimeFormat(new Date(parseInt(save)));
-                }
-            });
-        });
-        self.stats._sm_save_count = saveList.length;
+        ChoiceScriptSavePlugin._syncHelperVariables(saveList, function() {});
     });
 }
 
 Scene.prototype.sm_menu = function(data) {
     data = data || "";
     data = data.toLowerCase();
+    var selectEle = document.getElementById("quickSaveMenu");
+    if (!selectEle)
+        return;
     var active = false;
     if (data === "false") {
         active = false;
     } else if (data === "true") {
         active = true;
+    } else if (!data) { // toggle
+        active = selectEle.style.display == "none";
     } else {
-        throw new Error("*sm_menu: expected true or false as an argument!");
+        throw new Error("*sm_menu: expected true, false (or nothing) as an argument!");
     }
-    var selectEle = document.getElementById("quickSaveMenu");
-    if (selectEle)
-        selectEle.style.display = active ? "inline" : "none";
+    selectEle.style.display = active ? "inline" : "none";
     var btns = document.getElementsByClassName("savePluginBtn");
     for (var i = 0; i < btns.length; i++) {
         btns[i].style.display = active ? "inline" : "none";
@@ -82,7 +76,6 @@ ChoiceScriptSavePlugin._CSS =
    However, ChoiceScript already stores a working save at the top of every page,
    so we can just copy that save over to the specified slot. */
 ChoiceScriptSavePlugin._save = function(saveId, saveName) {
-    console.log(saveId);
     restoreObject(initStore(), "state", null, function(baseSave) {
         if (baseSave) {
             baseSave.stats["_smSaveName"] = saveName || "";
@@ -113,6 +106,17 @@ ChoiceScriptSavePlugin._save = function(saveId, saveName) {
     });
 }
 
+/* Utility function to grab a slots (near) full name:
+     Save data is stored in the form:
+        'state' + STORE_NAME + '_SAVE_' + dateId
+    Where 'state' is something ChoiceScript uses internally,
+    STORE_NAME is provided in the game's index.html,
+    and dateId is the unique handle/key stored in the save list.
+
+    Note that 'state' is not included here, as we use some internal
+    CS functions that already add it. Instead we hard-code it in the
+    few places we rely directly on the persist.js API.
+*/
 ChoiceScriptSavePlugin._formatSlotName = function(saveId){
     return (window.storeName + '_SAVE_' + saveId);
 }
@@ -122,17 +126,17 @@ ChoiceScriptSavePlugin._load = function(saveId) {
 }
 
 ChoiceScriptSavePlugin._delete = function(saveId) {
-    /// ???
     ChoiceScriptSavePlugin._removeFromSaveList(saveId, function(success) {
         if (!success)
             return;
         var select = document.getElementById("quickSaveMenu");
         if (select) {
             var deletedOption = select.options[select.selectedIndex];
-            deletedOption.parentElement.removeChild(deletedOption);
+            if (deletedOption)
+                deletedOption.parentElement.removeChild(deletedOption);
         }
         initStore().remove("state" + ChoiceScriptSavePlugin._formatSlotName(saveId), function(success, val) {
-            console.log("deleted", saveId , val);
+            // Likely there's nothing to delete
         });
     });
 }
@@ -190,8 +194,9 @@ ChoiceScriptSavePlugin._populateSaveMenu = function(selectEle) {
         saveList.forEach(function(saveId) {
             /* Grab the save data, so we can give it a nice title via _saveName */
             ChoiceScriptSavePlugin._getSaveData(saveId, function(saveData) {
-                if (!saveData)
+                if (!saveData) {
                     return;
+                }
                 var option = document.createElement("option");
                 option.setAttribute("value", saveData.stats._smSaveDateId /* time/date */ );
                 if (!saveData) {
@@ -222,9 +227,8 @@ ChoiceScriptSavePlugin._getSaveData = function(saveId, callback) {
 
 /* The save list is a space separated string of date identifiers, e.g.
         "1581976656199 1581976297095 1581976660752"
-    
+    We use this to keep a record of stored save keys/handles.
 */
-
 ChoiceScriptSavePlugin._removeFromSaveList = function(saveId, callback) {
     ChoiceScriptSavePlugin._getSaveList(function(saveList) {
         if (!saveList)
@@ -233,7 +237,9 @@ ChoiceScriptSavePlugin._removeFromSaveList = function(saveId, callback) {
         if (index > -1)
             saveList.splice(index, 1);
         initStore().set("save_list", saveList.join(" "), function(success, val) {
-            callback(success);
+            ChoiceScriptSavePlugin._syncHelperVariables(saveList, function() {
+                callback(success);
+            })
         });
     });
 }
@@ -244,9 +250,25 @@ ChoiceScriptSavePlugin._addToSaveList = function(saveId, callback) {
             return;
         saveList.push(saveId.toString());
         initStore().set("save_list", saveList.join(" "), function(success, val) {
-            callback(success);
+            ChoiceScriptSavePlugin._syncHelperVariables(saveList, function() {
+                callback(success);
+            })
         });
     });
+}
+
+ChoiceScriptSavePlugin._syncHelperVariables = function(saveList, callback) {
+    self.stats._sm_save_count = saveList.length;
+    saveList.forEach(function(save, index) {
+        ChoiceScriptSavePlugin._getSaveData(save, function(saveData) {
+            if (saveData) {
+                self.stats["_sm_save_id_" + index] = save;
+                self.stats["_sm_save_name_" + index] = saveData.stats._smSaveName || "";
+                self.stats["_sm_save_date_" + index] = simpleDateTimeFormat(new Date(parseInt(save)));
+            }
+        });
+    });
+    callback();
 }
 
 /* Pull the list of stored 'saves' from the store by store name */
