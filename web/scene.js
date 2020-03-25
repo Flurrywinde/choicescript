@@ -857,6 +857,10 @@ Scene.prototype.choice = function choice(data) {
       }
     }
     this.lineNum = startLineNum;
+    if (!this.temps.choice_stack) {
+      this.temps.choice_stack = [];
+    }
+    this.temps.choice_stack.push({lineNum: this.lineNum - 1, indent: this.indent});   // Go back one line number because printLoop() will increment it (past the *choice)
 };
 
 Scene.prototype.fake_choice = function fake_choice(data) {
@@ -1037,8 +1041,32 @@ Scene.prototype.params = function scene_params(data) {
     }
 };
 
-Scene.prototype["return"] = function scene_return() {
+Scene.prototype["return"] = function scene_return(data) {
     var stackFrame;
+    data = data || "";
+    var match = /(\S+)\s*(.*)/.exec(data);
+    if (match) {
+        var returnParameter = match[1];
+        if (match[2]) {
+            var match2 = /\d+/.exec(match[2]);
+            var returnNum = match2[0];
+        } else
+            var returnNum = 1;
+        if (returnParameter != 'choice')
+            throw new Error(this.lineMsg()+"Illegal parameter in *return call");
+        if (this.temps.choice_stack && this.temps.choice_stack.length) {
+            if (returnNum > this.temps.choice_stack.length)
+                throw new Error(this.lineMsg()+"returnNum exceeds stack length in *return call");
+            for (var i = 1; i <= returnNum; i++)
+                stackFrame = this.temps.choice_stack.pop();
+            this.lineNum = stackFrame.lineNum;
+            this.indent = stackFrame.indent;
+            return;
+        }
+    } else {
+        throw new Error(this.lineMsg()+"Illegal parameters in *return call");
+    }
+
     if (this.temps.choice_substack && this.temps.choice_substack.length) {
       stackFrame = this.temps.choice_substack.pop();
       this.lineNum = stackFrame.lineNum;

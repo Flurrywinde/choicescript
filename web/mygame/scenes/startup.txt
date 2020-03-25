@@ -58,9 +58,7 @@ Our enemies to the west are weak, but they threaten soon to invade.  What will y
     morale is low and the kingdom's armory is empty.  How will you win the war?
     *choice
       #Drive the peasants like slaves; if we work hard enough, we'll win.
-        Unfortunately, morale doesn't work like that.  Your army soon turns against you
-        and the kingdom falls to the western barbarians.
-        *finish
+        *goto drivepeasants
       #Appoint charismatic knights and give them land, peasants, and resources.
         Your majesty's people are eminently resourceful.  Your knights win the day,
         but take care: they may soon demand a convention of parliament.
@@ -84,3 +82,26 @@ Our enemies to the west are weak, but they threaten soon to invade.  What will y
     The kingdom descends into chaos, but you manage to escape with your own hide.
     Perhaps in time you can return to restore order to this fair land.
     *finish
+
+*label drivepeasants
+The peasantry's discontent increases, but they remain focused on the war in the west rather than start a rebellion... for now.
+
+Our pre-emptive strike on the western kingdoms caught the enemy off-guard, but we did not have the strength to defeat them. The war is in a deadlock with neither side able to gain an advantage. I fear, your majesty, that if the situation continues, food will again run out, and our army will be crushed.
+*choice
+    #Continue driving the peasants like slaves. They will not dare rebel now when victory is so close at hand!
+        *goto drivepeasants2
+    #Reward the highest producing provinces to incentive food production.
+        *goto rewardprovinces
+    #Punish the least producing provinces. Fear should increase food production.
+        *goto punishprovinces
+
+*label drivepeasants2
+[This option is yet to be written.]
+
+*label rewardprovinces
+[This option is yet to be written.]
+
+*label punishprovinces
+[This option is yet to be written.]
+*return choice 2
+
