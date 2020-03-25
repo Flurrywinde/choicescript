@@ -491,6 +491,9 @@ Scene.prototype.loadScene = function loadScene() {
             return;
         } else if (xhr.responseText === "") {
           if (window.location.protocol == "file:" && !window.isMobile && /Chrome/.test(navigator.userAgent)) {
+            // Handle the upload way
+            if (window.isFile) return window.stats.scene.loadFile();
+            // Don't need to error out anymore?
             window.onerror("We're sorry, Google Chrome has blocked ChoiceScript from functioning.  (\"file:\" URLs cannot "+
             "load files in Chrome.)  ChoiceScript works just fine in Chrome, but only on a published website like "+
             "choiceofgames.com.  For the time being, please try another browser like Mozilla Firefox.");
