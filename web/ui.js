@@ -49,16 +49,63 @@ function printx(msg, parent) {
 }
 
 function makeStyleSpan(match, p1) {
-	var re = /\s*(\S*)/g,
-		spanstyle = '<span style="';
+	var simpleProps = '', dispStr = '', dispStr2 = '', dispStr3 = '', dispStat = '', dispStat2 = '', dispStatTrue = '', dispStatFalse = '', clickStat = '', style = '', match = '', re = /\s*(\S*)/g, spanHead = '<span', styleHead = ' style="', styleStr = '', newStyle = '', onclickHead = ' onclick="', onclickStr = '';
 
 	while (style = re.exec(p1)) {
-		if (style[1])
-			spanstyle += validStyles[style[1]];
-		else
+		if (style[1]) {
+			if (match = /^id=(\S*)/.exec(style[1])) {
+				simpleProps += ' id="' + match[1] + '"';
+				continue;
+			} else if (match = /^class=(\S*)/.exec(style[1])) {
+				simpleProps += ' class="' + match[1] + '"';
+				continue;
+			} else if (match = /^display_id=(\S*)/.exec(style[1])) {
+				dispStr = 'document.getElementById(\''  + match[1] + '\').style.display = \'inline\'; ';
+				continue;
+			} else if (match = /^toggle_display_id=(\S*)/.exec(style[1])) {
+				dispStr = 'var displayId = document.getElementById(\''  + match[1] + '\'); if (displayId.style.display == \'none\') { displayId.style.display = \'inline\'; ';
+				dispStr2 = '} else { displayId.style.display = \'none\'; ';
+				dispStr3 = '} ';
+				continue;
+			} else if (match = /^display_id_block=(\S*)/.exec(style[1])) {
+				dispStr = 'document.getElementById(\''  + match[1] + '\').style.display = \'block\'; ';
+				continue;
+			} else if (match = /^toggle_display_id_block=(\S*)/.exec(style[1])) {
+				dispStr = 'var displayId = document.getElementById(\''  + match[1] + '\'); if (displayId.style.display == \'none\') { displayId.style.display = \'block\'; ';
+				dispStr2 = '} else { displayId.style.display = \'none\'; ';
+				dispStr3 = '} ';
+				continue;
+			} else if (match = /^display_stat=(\S*)/.exec(style[1])) {
+				dispStat = "window.stats.scene.setVar('" + match[1] + "', ";
+				dispStat2 = "); ";
+				continue;
+			} else if (match = /^click_stat=(\S*)/.exec(style[1])) {
+				clickStat = "window.stats.scene.setVar('" + match[1] + "', true); ";
+				continue;
+			} else
+				if (newStyle = validStyles[style[1]])
+					styleStr += newStyle;
+		} else
 			break;
 	}
-	return spanstyle += '">';
+
+	if (styleStr) {
+		styleStr = styleHead + styleStr + '" ';
+	}
+	if (dispStat) {
+		dispStatTrue = dispStat + 'true' + dispStat2;
+		dispStatFalse = dispStat + 'false' + dispStat2;
+	}
+	if (dispStr2) {
+		dispStr = dispStr + dispStatTrue + dispStr2 + dispStatFalse + dispStr3;
+	} else if (dispStr) {
+		dispStr = dispStr + dispStatTrue;
+	}
+	if (dispStr) {
+		onclickStr = onclickHead + clickStat + dispStr + '"';
+	}
+
+	return spanHead + simpleProps + styleStr + onclickStr + '>';
 }
 
 function replaceBbCode(msg) {
@@ -3624,17 +3671,24 @@ validStyles =  {'green':'color: green; ',
 				'padding10':'padding: 10px; ',
 				'padding15':'padding: 15px; ',
 				'padding20':'padding: 20px; ',
-				'bold':'font-weight: bolder; ',
 				'b':'font-weight: bolder; ',
-				'italics':'font-style: italic; ',
+				'bold':'font-weight: bolder; ',
 				'i':'font-style: italic; ',
-				'strikethru':'text-decoration: line-through; ',
+				'italics':'font-style: italic; ',
 				's':'text-decoration: line-through; ',
+				'strikethru':'text-decoration: line-through; ',
+				'u':'text-decoration: underline; ',
 				'underline':'text-decoration: underline; ',
-				'ul':'text-decoration: underline; ',
+				'underline-dotted':'text-decoration: underline; text-decoration-style: dotted; ',
+				'underline-dashed':'text-decoration: underline; text-decoration-style: dashed; ',
 				'smallcaps':'font-variant: small-caps; ',
-				'font-reg':'font-size: normal; ',
+				'nodisplay':'display: none; ',
+				'pointer':'cursor: pointer; ',
+				'fadein':'animation: fadeIn 1s; ',
+				'flash-bg':'animation: flashBg 1s; ',
+				'font-reg':'font-size: 14px; font-size: 1rem; ',
 				'font-sm':'font-size: smaller; ',
+				'font-bg':'font-size: bigger; ',
 				'font50':'font-size: 50%; ',
 				'font125':'font-size: 150%; ',
 				'font150':'font-size: 150%; ',

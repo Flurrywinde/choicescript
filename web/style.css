@@ -478,4 +478,13 @@ body.whitemode .next:hover {
                /* transform: translateX(12.5px);   Only with annotator sidebar */
                max-width: 100vw;
        }
+   }
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+@keyframes flashBg {
+  from {background-color: red;}
+  to {opacity:1 ;}
 }
