@@ -273,16 +273,37 @@ ChoiceScriptSavePlugin._syncHelperVariables = function(saveList, callback) {
 
 /* Pull the list of stored 'saves' from the store by store name */
 ChoiceScriptSavePlugin._getSaveList = function(callback) {
-    initStore().get("save_list", function(success, val) {
-        if (!success)
-            callback(null);
-        if (!val)
-            callback([]);
-        else
-            callback(saveList = val.split(" ").sort(function(a, b) {
-                return b - a;
-            }));
-    });
+    var store = initStore();
+    // initStore() was undefined running locally in Chrome
+    if (typeof store !== 'undefined') {
+        store.get("save_list", function(success, val) {
+            if (!success)
+                callback(null);
+            if (!val)
+                callback([]);
+            else
+                callback(saveList = val.split(" ").sort(function(a, b) {
+                    return b - a;
+                }));
+        });
+    } else {
+        // callback(null);   // Not sure if this is right when store comes back undefined, just took it from !success . No more error, but save non-functional. Trying code from _init below:
+        // disallow sm_ commands as they depend on a store
+        Scene.validCommands["sm_save"] = 0;
+        Scene.validCommands["sm_load"] = 0;
+        Scene.validCommands["sm_delete"] = 0;
+        Scene.validCommands["sm_menu"] = 0;
+        Scene.validCommands["sm_menu"] = 0;
+
+        // Also hide the menu (is there a way to have checked initStore() in _init?
+        document.getElementById("quickSaveMenu").style.display = "none";
+        var btns = document.getElementsByClassName("savePluginBtn");
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].style.display = "none";
+        }
+
+        return alertify.error("Disabling ChoiceScript Save Plugin as internal storage could not be initialized. Are you running locally?");
+    }
 }
 
 ChoiceScriptSavePlugin._init = function() {
