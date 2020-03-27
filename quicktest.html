@@ -40,6 +40,29 @@ Scene.prototype.verifySceneFile = function webVerifySceneFile(name) {
 
 Scene.prototype.verifyImage = function webVerifyImage(fileName) {
   if (knownImages[fileName]) return;
+
+  // Verify a remote image file
+  if (/^https?:/.test(fileName)) {
+    var xhr = new XMLHttpRequest();
+    var url = fileName;
+    console.log(url);
+    xhr.open("GET", url, false);
+    try {
+      xhr.send();
+    } catch (e) {
+      // throw new Error(this.lineMsg() + "File unfetchable (possible temporary failure): " + fileName);
+    }
+    if (xhr.status && xhr.status != 200) {
+      // throw new Error(this.lineMsg() + "File unfetchable (possible temporary failure): " + fileName);
+    }
+    // Pass all remote images, since might work fine normally, just fail here due to CORS policy
+    knownImages[fileName] = 1;
+    return;
+  }
+
+  // Just pass all images for now, pending alternate server code
+  return;
+
   if ("file:" === window.location.protocol) {
     for (var otherImage in knownImages) {
       if (fileName.toLowerCase() === otherImage.toLowerCase()) {
