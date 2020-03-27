@@ -161,12 +161,11 @@ Our pre-emptive strike on the western kingdoms caught the enemy off-guard, but w
         *goto punishprovinces
 
 *label drivepeasants2
-[This option is yet to be written.]
+"Continue driving the peasants like slaves. They will not dare rebel now when victory is so close at hand!" doesn't exist yet. Going to the next one...
 
 *label rewardprovinces
-[This option is yet to be written.]
+"Reward the highest producing provinces to incentive food production." doesn't exist yet. Going to the next one...
 
 *label punishprovinces
-[This option is yet to be written.]
+"Punish the least producing provinces. Fear should increase food production." doesn't exist yet. Returning to previous *choice...
 *return choice 2
-
