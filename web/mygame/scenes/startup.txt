@@ -33,7 +33,7 @@
 
 [style=soft-shadow bold]Spell Out Numbers[/style]
 
-Now you can spell out numbers. [b]Example:[/b]
+Now you can spell out numbers! [b]Example:[/b]
 
 Great news, Your Majesty! You now have ${spell({knights})} knight@{(knights = 1) |s} in your retinue. $!!{spell({knights})}! That's a lot!
 
