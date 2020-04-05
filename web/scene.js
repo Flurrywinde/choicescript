@@ -1063,10 +1063,8 @@ Scene.prototype["return"] = function scene_return(data) {
             this.indent = stackFrame.indent;
             return;
         }
-    } else {
-        throw new Error(this.lineMsg()+"Illegal parameters in *return call");
     }
-
+	// No parameters to *return
     if (this.temps.choice_substack && this.temps.choice_substack.length) {
       stackFrame = this.temps.choice_substack.pop();
       this.lineNum = stackFrame.lineNum;
